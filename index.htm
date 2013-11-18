@@ -73,7 +73,9 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		html, body {
 		  margin: 0;
 		  min-height:100%;
+		  height: 500px;
 		  padding:0;
+		  position: relative;
 		}
 
 		svg {
@@ -139,11 +141,11 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		
 		#wrapper {
 			position: absolute;
-			padding-bottom: 200px;
 			top: 0;
 			bottom: 0;
 			left: 0;
 			right: 0;
+			height: 500px;
 		}
 		
 		#map {
@@ -152,23 +154,21 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		}
 		
 		#options {
-			height: 200px;
-		}
-		
-		#options1 {
 			width:350px;
-			min-width: 250px;
-			float:left;
 			margin: 10px;
 			font-family: Georgia,serif;
 			font-size: 12px;
 			color: rgb(85, 85, 85);
 			line-height: 24px;
-		}
-		
-		#options2 {
-			 width:80%;
-			 float:right;
+			position: absolute;
+			z-index: 1;
+			left: 40px;
+			right: 0;
+			bottom: 40px;
+			height: 100px;
+			background-color: #FFF;
+			color: black;
+			padding: 10px;
 		}
 		
 		p {
@@ -178,56 +178,28 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 
 
     </style>
-	
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1', {packages: ['corechart']});
-    </script>
-    <script type="text/javascript">
-      function drawVisualization() {
-        // Create and populate the data table.
-        var data = google.visualization.arrayToDataTable([
-          ['Month', 'Asphalt/Street', 'Bridge Maintenance','Street Light Repairs', 'Pothole Repairs in 72 hours'],
-          ['April', 85, 64, 61, 84],
-          ['May',  89, 100, 100, 93],
-          ['June', 95.2, 44.4, 100, 98],
-          ['July',  96, 70, 100, 96],
-        ]);
-      
-        // Create and draw the visualization.
-        new google.visualization.ColumnChart(document.getElementById('options2')).
-            draw(data,
-                 {title:"Percentage of Infrastructure Repairs Completed Within SLA",
-                  hAxis: {title: "Month"}}
-                 );
-      }
-      
-
-      google.setOnLoadCallback(drawVisualization);
-    </script>
-
-	
+		
   </head>
   <body>
   <div id="wrapper">
 	<div id="map"></div>
-	<div id="options">
-		<div id="options1">
-			<input type="checkbox" name="sports" value="soccer"  />Youth Enrolled In After-School/CBF Programs<br />
-			<input type="checkbox" name="sports" value="football"  />Youth Served In Recreation Center Programs<br />
-			<input type="checkbox" name="sports" value="baseball"  />% Bin Delivery and Pick-up Completed Within SLA<br /> 
-			<input type="checkbox" name="sports" value="basketball"  />% Dead Animal Removal Completed Within SLA
-		</div>
-		<div id="options2"></div>
-	</div>
+	
   </div>
+  
+  <div id="options">
+		<input type="checkbox" name="sports" value="soccer"  />Youth Enrolled In After-School/CBF Programs<br />
+		<input type="checkbox" name="sports" value="football"  />Youth Served In Recreation Center Programs<br />
+		<input type="checkbox" name="sports" value="baseball"  />% Bin Delivery and Pick-up Completed Within SLA<br /> 
+		<input type="checkbox" name="sports" value="basketball"  />% Dead Animal Removal Completed Within SLA
+		<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+	</div>
     <script type="text/javascript">var po = org.polymaps;
 
 		var map = po.map()
 			.container(document.getElementById("map").appendChild(po.svg("svg")))
 			.zoomRange([12, 15])
 			.add(po.interact())
-			.center({lat: 33.76, lon: -84.42});
+			.center({lon: -84.42, lat: 33.76});
 
 		map.add(po.image()
 			.url(po.url("http://{S}tile.cloudmade.com"
@@ -244,15 +216,15 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		/** A lightweight layer implementation for an image overlay. */
 		function overlay(tile, proj) {
 		  proj = proj(tile);
-		  var tl = proj.locationPoint({lon: -84.591040234375, lat: 33.90650695466069}),
-			  br = proj.locationPoint({lon: -84.25077709960938, lat: 33.61398094658286}),
+		  var tl = proj.locationPoint({lon: -84.457312, lat: 33.895870}),
+			  br = proj.locationPoint({lon: -84.272173, lat: 33.685268}),
 			  image = tile.element = po.svg("image");
-		  image.setAttribute("preserveAspectRatio", "none");
+		  image.setAttribute("preserveAspectRatio", "true");
 		  image.setAttribute("x", tl.x);
 		  image.setAttribute("y", tl.y);
 		  image.setAttribute("width", br.x - tl.x);
 		  image.setAttribute("height", br.y - tl.y);
-		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "http://i.imgur.com/GXJq9JQ.png");
+		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "images/neighborhoods.png");
 		}
 	</script>
   </body>
