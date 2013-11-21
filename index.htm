@@ -141,11 +141,10 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		
 		#wrapper {
 			position: absolute;
-			top: 0;
+			top: 150px;
 			bottom: 0;
 			left: 0;
 			right: 0;
-			height: 500px;
 		}
 		
 		#map {
@@ -154,7 +153,24 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		}
 		
 		#options {
-			width:350px;
+			width:175px;
+			margin: 10px;
+			font-family: Georgia,serif;
+			font-size: 16px;
+			color: rgb(85, 85, 85);
+			line-height: 24px;
+			position: absolute;
+			z-index: 1;
+			left: 20px;
+			right: 0;
+			bottom: 20px;
+			background-color: #FFF;
+			color: black;
+			padding: 10px;
+		}
+		
+		#disclaimer {
+			width:750px;
 			margin: 10px;
 			font-family: Georgia,serif;
 			font-size: 12px;
@@ -162,10 +178,8 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 			line-height: 24px;
 			position: absolute;
 			z-index: 1;
-			left: 40px;
-			right: 0;
-			bottom: 40px;
-			height: 100px;
+			right: 20px;
+			bottom: 20px;
 			background-color: #FFF;
 			color: black;
 			padding: 10px;
@@ -179,27 +193,28 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 
     </style>
 		
-  </head>
-  <body>
-  <div id="wrapper">
-	<div id="map"></div>
-	
-  </div>
-  
-  <div id="options">
-		<input type="checkbox" name="sports" value="soccer"  />Youth Enrolled In After-School/CBF Programs<br />
-		<input type="checkbox" name="sports" value="football"  />Youth Served In Recreation Center Programs<br />
-		<input type="checkbox" name="sports" value="baseball"  />% Bin Delivery and Pick-up Completed Within SLA<br /> 
-		<input type="checkbox" name="sports" value="basketball"  />% Dead Animal Removal Completed Within SLA
-		<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+	</head>
+	<body>
+	<div id="wrapper">
+		<div id="map"></div>
 	</div>
+
+	<div id="options">
+		<input type="checkbox" name="neighborhoods" id="neighborhoods" onclick="changeHandler(this.id)" checked="checked" /><label for="showAlert1"> Neighborhoods<br /></label>
+		<input type="checkbox" name="zones" id="zones" onclick="changeHandler(this.id)" /><label for="showAlert2"> Zones<br /></label>
+	</div>
+	
+	<div id="disclaimer">
+		Note: The feature locations depicted in these maps are approximate and are not necessarily accurate to surveying or engineering standards.
+	</div>
+	
     <script type="text/javascript">var po = org.polymaps;
 
 		var map = po.map()
 			.container(document.getElementById("map").appendChild(po.svg("svg")))
 			.zoomRange([12, 15])
 			.add(po.interact())
-			.center({lon: -84.42, lat: 33.76});
+			.center({lon: -84.40, lat: 33.78});
 
 		map.add(po.image()
 			.url(po.url("http://{S}tile.cloudmade.com"
@@ -207,25 +222,54 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 			+ "/998/256/{Z}/{X}/{Y}.png")
 			.hosts(["a.", "b.", "c.", ""])));
 
-		map.add(po.layer(overlay)
-			.tile(false));
-
+		map.add(po.layer(neighborhoodsOverlay)
+			.tile(false)
+			.id("neighborhoodsOverlay"));
+			
+		map.add(po.layer(zonesOverlay)
+			.tile(false)
+			.id("zonesOverlay"));
+			
 		map.add(po.compass()
 			.pan("none"));
 			
 		/** A lightweight layer implementation for an image overlay. */
-		function overlay(tile, proj) {
+		function neighborhoodsOverlay(tile, proj) {
 		  proj = proj(tile);
-		  var tl = proj.locationPoint({lon: -84.457312, lat: 33.895870}),
-			  br = proj.locationPoint({lon: -84.272173, lat: 33.685268}),
+		  var tl = proj.locationPoint({lat: 33.89050998115993, lon: -84.47799682617188}),
+			  br = proj.locationPoint({lat: 33.715201644740844, lon: -84.26239013671875}),
 			  image = tile.element = po.svg("image");
 		  image.setAttribute("preserveAspectRatio", "true");
 		  image.setAttribute("x", tl.x);
 		  image.setAttribute("y", tl.y);
 		  image.setAttribute("width", br.x - tl.x);
 		  image.setAttribute("height", br.y - tl.y);
-		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "images/neighborhoods.png");
+		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/neighborhoods.png");
+		}
+		
+		function zonesOverlay(tile, proj) {
+		  proj = proj(tile);
+		  var tl = proj.locationPoint({lat: 33.90604072983462, lon: -84.59815979003906}),
+			  br = proj.locationPoint({lat: 33.613761551083314, lon: -84.24522399902344}),
+			  image = tile.element = po.svg("image");
+		  image.setAttribute("preserveAspectRatio", "true");
+		  image.setAttribute("x", tl.x);
+		  image.setAttribute("y", tl.y);
+		  image.setAttribute("width", br.x - tl.x);
+		  image.setAttribute("height", br.y - tl.y);
+		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/zones.png");
+		}
+		
+		function changeHandler(elementId) {
+			var checkbox = document.getElementById(elementId);
+			var overlay = document.getElementById(elementId + "Overlay");
+			if(checkbox.checked) {
+				overlay.style.opacity = 1;
+			} else {
+				overlay.style.opacity = 0;
+			}
 		}
 	</script>
+	<script type="text/javascript">changeHandler("neighborhoodsOverlay");</script>
   </body>
 </html>
