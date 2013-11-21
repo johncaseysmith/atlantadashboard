@@ -260,6 +260,19 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/zones.png");
 		}
 		
+		function schoolsOverlay(tile, proj) {
+		  proj = proj(tile);
+		  var tl = proj.locationPoint({lat: 33.949910488042526, lon: -84.56382751464844}),
+			  br = proj.locationPoint({lat: 33.585451301822296, lon: -84.27406311035156}),
+			  image = tile.element = po.svg("image");
+		  image.setAttribute("preserveAspectRatio", "true");
+		  image.setAttribute("x", tl.x);
+		  image.setAttribute("y", tl.y);
+		  image.setAttribute("width", br.x - tl.x);
+		  image.setAttribute("height", br.y - tl.y);
+		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/zones.png");
+		}
+		
 		function changeHandler(elementId) {
 			var checkbox = document.getElementById(elementId);
 			var overlay = document.getElementById(elementId + "Overlay");
@@ -269,7 +282,8 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 				overlay.style.opacity = 0;
 			}
 		}
+		
+		changeHandler("zones");
 	</script>
-	<script type="text/javascript">changeHandler("neighborhoodsOverlay");</script>
   </body>
 </html>
