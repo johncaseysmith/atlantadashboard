@@ -204,6 +204,7 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		<input type="radio" name="group1" id="neighborhoods" onclick="changeHandler(this.id)" checked="checked" /><label for="showAlert1"> Neighborhoods<br /></label>
 		<input type="radio" name="group1" id="zones" onclick="changeHandler(this.id)" /><label for="showAlert2"> Police Zones<br /></label>
 		<input type="radio" name="group1" id="schools" onclick="changeHandler(this.id)" /><label for="showAlert3"> School Zones<br /></label>
+		<input type="radio" name="group1" id="precinct" onclick="changeHandler(this.id)" /><label for="showAlert4"> Voting Precincts<br /></label>
 	</div>
 	
 	<div id="disclaimer">
@@ -235,6 +236,10 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		map.add(po.layer(schoolsOverlay)
 			.tile(false)
 			.id("schoolsOverlay"));
+			
+		map.add(po.layer(precinctsOverlay)
+			.tile(false)
+			.id("precinctsOverlay"));
 			
 		map.add(po.compass()
 			.pan("none"));
@@ -279,12 +284,26 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/schools.png");
 		}
 		
+		function precinctsOverlay(tile, proj) {
+		  proj = proj(tile);
+		  var tl = proj.locationPoint({lat: 33.93680890100409, lon: -84.55215454101562}),
+			  br = proj.locationPoint({lat: 33.637489243170826, lon: -84.28436279296875}),
+			  image = tile.element = po.svg("image");
+		  image.setAttribute("preserveAspectRatio", "true");
+		  image.setAttribute("x", tl.x);
+		  image.setAttribute("y", tl.y);
+		  image.setAttribute("width", br.x - tl.x);
+		  image.setAttribute("height", br.y - tl.y);
+		  image.setAttributeNS("http://www.w3.org/1999/xlink", "href", "https://raw.github.com/johncaseysmith/atlantadashboard/gh-pages/images/precincts.png");
+		}
+		
 		function changeHandler(elementId) {
 			var checkbox = document.getElementById(elementId);
 			var overlay = document.getElementById(elementId + "Overlay");
 			document.getElementById("zonesOverlay").style.opacity = 0;
 			document.getElementById("schoolsOverlay").style.opacity = 0;
 			document.getElementById("neighborhoodsOverlay").style.opacity = 0;
+			document.getElementById("precinctsOverlay").style.opacity = 0;
 			if(checkbox.checked) {
 				overlay.style.opacity = 0.75;
 			}
@@ -292,6 +311,7 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		
 		changeHandler("zones");
 		changeHandler("schools");
+		changeHandler("precints");
 	</script>
   </body>
 </html>
