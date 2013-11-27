@@ -153,7 +153,7 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		}
 		
 		#options {
-			width:175px;
+			width:185px;
 			margin: 10px;
 			font-family: Georgia,serif;
 			font-size: 16px;
@@ -200,9 +200,10 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 	</div>
 
 	<div id="options">
-		<input type="checkbox" name="neighborhoods" id="neighborhoods" onclick="changeHandler(this.id)" checked="checked" /><label for="showAlert1"> Neighborhoods<br /></label>
-		<input type="checkbox" name="zones" id="zones" onclick="changeHandler(this.id)" /><label for="showAlert2"> Police Zones<br /></label>
-		<input type="checkbox" name="schools" id="schools" onclick="changeHandler(this.id)" /><label for="showAlert3"> School Zones<br /></label>
+		<h2>Choose your overlay.</h2>
+		<input type="radio" name="group1" id="neighborhoods" onclick="changeHandler(this.id)" checked="checked" /><label for="showAlert1"> Neighborhoods<br /></label>
+		<input type="radio" name="group1" id="zones" onclick="changeHandler(this.id)" /><label for="showAlert2"> Police Zones<br /></label>
+		<input type="radio" name="group1" id="schools" onclick="changeHandler(this.id)" /><label for="showAlert3"> School Zones<br /></label>
 	</div>
 	
 	<div id="disclaimer">
@@ -281,10 +282,11 @@ i.call(null,t);i==null?n.style.removeProperty(l.name):n.style.setProperty(l.name
 		function changeHandler(elementId) {
 			var checkbox = document.getElementById(elementId);
 			var overlay = document.getElementById(elementId + "Overlay");
+			document.getElementById("zonesOverlay").style.opacity = 0;
+			document.getElementById("schoolsOverlay").style.opacity = 0;
+			document.getElementById("neighborhoodsOverlay").style.opacity = 0;
 			if(checkbox.checked) {
-				overlay.style.opacity = 1;
-			} else {
-				overlay.style.opacity = 0;
+				overlay.style.opacity = 0.75;
 			}
 		}
 		
